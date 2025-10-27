@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="login-container">
+  <span class="material-symbols-outlined logo-icon">shield</span>
+  <h1 class="site-title">CampusVault</h1>
+  <p class="site-subtitle">Your secure password manager for college life</p>
+
+  <div class="login-card">
+    <h2>Welcome Back</h2>
+    <p>Sign in to access your secure vault</p>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Sign In</button>
+    </form>
+
+    <p class="mt-4">
+      Don't have an account?
+      <a href="{% url 'accounts:register' %}">Sign up</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

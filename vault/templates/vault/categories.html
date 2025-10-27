@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Manage Categories{% endblock %}
+{% block content %}
+
+<div>
+  <div class="logo">
+        <a href="{% url 'vault:dashboard' %}">
+          <span class="material-symbols-outlined">lock</span>
+          CampusVault
+        </a>
+      </div>
+  <h2>Categories</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add</button>
+  </form>
+
+  <ul>
+    {% for c in categories %}
+      <li>
+        <span>{{ c.name }}</span>
+        <!-- You can add edit/delete later -->
+      </li>
+    {% empty %}
+      <li>No categories yet.</li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

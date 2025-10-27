@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+<div class="dashboard-container">
+
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div>
+      <h1 class="app-title">Campus<span>Vault</span></h1>
+      <div class="logo">
+        <a href="{% url 'vault:dashboard' %}">
+          <span class="material-symbols-outlined">lock</span>
+          CampusVault
+        </a>
+      </div>
+      <p class="user-email">{{ user.email }}</p>
+    </div>
+    <a href="{% url 'accounts:logout' %}" class="logout-btn">
+      <span class="material-icons">logout</span> Logout
+    </a>
+  </div>
+
+  <!-- Overview Section -->
+  <h2 class="section-title">Overview</h2>
+  <div class="overview-grid">
+    <div class="overview-card purple">
+      <div class="card-icon">
+        <span class="material-icons">lock</span>
+      </div>
+      <div class="card-text">
+        <h3>Total Saved Passwords</h3>
+        <p>{{ total }}</p>
+      </div>
+    </div>
+
+    <div class="overview-card orange">
+      <div class="card-icon">
+        <span class="material-icons">warning</span>
+      </div>
+      <div class="card-text">
+        <h3>Weak Passwords</h3>
+        <p>{{ weak_count }}</p>
+      </div>
+    </div>
+
+    <div class="overview-card green">
+      <div class="card-icon">
+        <span class="material-icons">lightbulb</span>
+      </div>
+      <div class="card-text">
+        <h3>Tip</h3>
+        <p>{{ tip }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories Section -->
+  <div class="section-header">
+    <h2 class="section-title">Categories</h2>
+    <div class="action-buttons">
+      <a href="{% url 'vault:add_password' %}" class="add-btn blue">
+        <span class="material-icons">add_circle</span> Add Password
+      </a>
+      <a href="{% url 'vault:manage_categories' %}" class="add-btn green">
+        <span class="material-icons">create_new_folder</span> Add Category
+      </a>
+    </div>
+  </div>
+
+  <div class="categories-grid">
+    {% for c in categories %}
+    <a href="{% url 'vault:list_passwords' %}?category={{ c.id }}" class="category-card-link">
+  <div class="category-card">
+    <div class="category-icon">
+      <span class="material-icons">folder</span>
+    </div>
+    <h3>{{ c.name }}</h3>
+    <p>{{ c.count }} credentials</p>
+  </div>
+</a>
+
+    {% empty %}
+    <p class="no-categories">No categories yet.</p>
+    {% endfor %}
+  </div>
+
+    <!-- Recent Passwords Section -->
+  <div class="section-header">
+    <h2 class="section-title">Recent Passwords</h2>
+    <a href="{% url 'vault:list_passwords' %}" class="view-all-link">View All</a>
+  </div>
+
+  <div class="passwords-grid">
+    {% for p in recent_passwords %}
+    <div class="password-card">
+      <div class="password-info">
+        <h3>{{ p.platform_name }}</h3>
+        <p>{{ p.username }}</p>
+      </div>
+      <div class="password-actions">
+        <a href="{% url 'vault:detail_password' p.pk %}" class="icon-btn" title="View Details">
+          <span class="material-icons">visibility</span>
+        </a>
+        <a href="{% url 'vault:edit_password' p.pk %}" class="icon-btn" title="Edit">
+          <span class="material-icons">edit</span>
+        </a>
+      </div>
+    </div>
+    {% empty %}
+    <p class="no-passwords">No passwords saved yet. Add your first one!</p>
+    {% endfor %}
+  </div>
+
+
+</div>
+
+{% endblock %}

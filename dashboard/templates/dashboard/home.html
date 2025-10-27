@@ -1,0 +1,35 @@
+{% extends "vault/base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+<!-- User Info -->
+<div>
+  <h1>CampusVault</h1>
+  <p>{{ user.email }}</p>
+</div>
+
+<!-- Categories -->
+<h2>Categories</h2>
+<div>
+  {% for c in categories %}
+    <div>
+      <h3>{{ c.name }}</h3>
+      <p>{{ c.count }} credentials</p>
+    </div>
+  {% empty %}
+    <p>No categories yet.</p>
+  {% endfor %}
+</div>
+
+<!-- Add Password Button -->
+<div>
+  <a href="#">Add Password</a>
+</div>
+
+<!-- Empty Passwords Section -->
+<div>
+  <p>No passwords yet. Add your first one!</p>
+  <a href="#">Add Your First Password</a>
+</div>
+
+{% endblock %}

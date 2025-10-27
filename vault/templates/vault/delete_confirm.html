@@ -1,0 +1,17 @@
+{% extends "vault/base.html" %}
+{% load static %}
+{% block title %}Delete Password{% endblock %}
+{% block content %}
+
+<div>
+  <h2>Delete Confirmation</h2>
+  <p>Are you sure you want to delete <strong>{{ entry.platform_name }}</strong>?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, Delete</button>
+    <a href="{% url 'vault:list_passwords' %}">Cancel</a>
+  </form>
+</div>
+
+{% endblock %}

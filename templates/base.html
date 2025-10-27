@@ -1,0 +1,66 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CampusVault - {% block title %}{% endblock %}</title>
+
+  <!-- Google Material Symbols (Outlined) -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <!-- Logo -->
+      <div class="logo">
+        <a href="{% url 'dashboard:home' %}">
+          <span class="material-symbols-outlined">lock</span>
+          CampusVault
+        </a>
+      </div>
+
+      <!-- Navigation -->
+      <nav>
+        {% if user.is_authenticated %}
+          <a href="{% url 'vault:list_passwords' %}">
+            <span class="material-symbols-outlined">key</span>
+            Vault
+          </a>
+          <a href="{% url 'accounts:logout' %}">
+            <span class="material-symbols-outlined">logout</span>
+            Logout
+          </a>
+        {% else %}
+          <a href="{% url 'accounts:login' %}">
+            <span class="material-symbols-outlined">login</span>
+            Login
+          </a>
+          <a href="{% url 'accounts:register' %}">
+            <span class="material-symbols-outlined">person_add</span>
+            Register
+          </a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    &copy; {{ now.year }} CampusVault
+  </footer>
+
+  <!-- Scripts -->
+  <script src="{% static 'vault/js/main.js' %}"></script>
+</body>
+</html>

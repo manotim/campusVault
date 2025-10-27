@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ entry.platform_name }}{% endblock %}
+
+{% block content %}
+<div class="logo">
+        <a href="{% url 'vault:dashboard' %}">
+          <span class="material-symbols-outlined">lock</span>
+          CampusVault
+        </a>
+      </div>
+<div class="detail-container">
+  <div class="detail-card">
+    <h2 class="detail-title">{{ entry.platform_name }}</h2>
+
+    <div class="detail-item">
+      <span class="label">Username:</span>
+      <span class="value">{{ entry.username }}</span>
+    </div>
+
+    <div class="detail-item">
+      <span class="label">Password:</span>
+      <span id="pwd" class="value password" data-shown="0">••••••••</span>
+      <div class="btn-group">
+        <button type="button" class="btn btn-secondary" onclick="togglePassword(event)">Show</button>
+        <button type="button" class="btn btn-primary" onclick="copyToClipboard('{{ password_plain|escapejs }}')">Copy</button>
+      </div>
+    </div>
+
+    {% if entry.url %}
+    <div class="detail-item">
+      <span class="label">URL:</span>
+      <a href="{{ entry.url }}" target="_blank" rel="noopener noreferrer" class="value link">{{ entry.url }}</a>
+    </div>
+    {% endif %}
+
+    {% if entry.notes %}
+    <div class="detail-section">
+      <h3 class="section-title">Notes</h3>
+      <p class="notes">{{ entry.notes }}</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+function togglePassword(event) {
+  const el = document.getElementById('pwd');
+  const btn = event.target;
+  if (el.dataset.shown === '1') {
+    el.textContent = '••••••••';
+    el.dataset.shown = '0';
+    btn.textContent = 'Show';
+  } else {
+    el.textContent = "{{ password_plain|escapejs }}";
+    el.dataset.shown = '1';
+    btn.textContent = 'Hide';
+  }
+}
+
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text)
+    .then(() => alert('Password copied to clipboard!'))
+    .catch(() => alert('Failed to copy password.'));
+}
+</script>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="auth-container">
+  <span class="material-symbols-outlined logo-icon">shield</span>
+  <h1 class="site-title">CampusVault</h1>
+  <p class="site-subtitle">Your secure password manager for college life</p>
+
+  <div class="auth-card">
+    <h2>Create Account</h2>
+    <p>Sign up to start securing your passwords</p>
+
+    <form method="post">
+  {% csrf_token %}
+  <div>
+    {{ form.username.label_tag }}
+    {{ form.username }}
+  </div>
+
+  <div>
+    {{ form.email.label_tag }}
+    {{ form.email }}
+  </div>
+
+  <div>
+    {{ form.password1.label_tag }}
+    {{ form.password1 }}
+  </div>
+
+  <div>
+    {{ form.password2.label_tag }}
+    {{ form.password2 }}
+  </div>
+
+  <button type="submit">Create Account</button>
+</form>
+
+
+    <p class="auth-switch">
+      Already have an account?
+      <a href="{% url 'accounts:login' %}">Sign in</a>
+    </p>
+  </div>
+</div>
+{% endblock %}
